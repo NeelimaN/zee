@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/zee/static/css/main.a7a52a4f.css",
+    "main.js": "/zee/static/js/main.8cd1760a.js",
+    "static/js/787.9e305175.chunk.js": "/zee/static/js/787.9e305175.chunk.js",
+    "index.html": "/zee/index.html",
+    "main.a7a52a4f.css.map": "/zee/static/css/main.a7a52a4f.css.map",
+    "main.8cd1760a.js.map": "/zee/static/js/main.8cd1760a.js.map",
+    "787.9e305175.chunk.js.map": "/zee/static/js/787.9e305175.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a7a52a4f.css",
+    "static/js/main.8cd1760a.js"
+  ]
+}
