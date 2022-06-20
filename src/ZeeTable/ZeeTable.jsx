@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react";
 import { throttle } from "lodash";
 
+import Paginate from "./Paginate";
 import "./ZeeTable.css";
 import { publicAPI } from "../service/api";
+import DataTable from "./DataTable";
 
 export default function ZeeTable() {
   const [tableData, setTableData] = useState([]);
   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageLimit = 10;
+  const pages = Math.ceil(tableData.length / pageLimit);
+  const lastPost = currentPage * pageLimit;
+  const firstPost = lastPost - pageLimit;
+  const currentPosts = tableData.slice(firstPost, lastPost);
 
   const initTable = async () => {
     const { data } = await publicAPI.get("posts/");
@@ -77,42 +86,23 @@ export default function ZeeTable() {
     }, 200)();
   };
 
+  const onPaginate = (page) => {
+    let local = page;
+    if (page === -1) local = currentPage - 1;
+    if (!page) local = currentPage + 1;
+    setCurrentPage(local);
+  };
+
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>TITLE</th>
-            <th>
-              <input placeholder='Search' onChange={onSearch} value={search} />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData?.map((row, i) => {
-            return (
-              <tr key={row.id}>
-                <td>{row.id}</td>
-                <td>
-                  <div
-                    suppressContentEditableWarning
-                    contentEditable
-                    onKeyPress={(e) => onEdit(e, row.id)}
-                    onBlur={(e) => onEdit(e, row.id)}
-                  >
-                    {row.title}
-                  </div>
-                </td>
-
-                <td>
-                  <button onClick={() => onDelete(row.id)}>delete</button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <DataTable
+        posts={currentPosts}
+        search={search}
+        onSearch={onSearch}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+      {pages > 1 && <Paginate pages={pages} paginate={onPaginate} />}
     </div>
   );
 }
