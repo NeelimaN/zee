@@ -9,7 +9,7 @@ export default function ZeeTable() {
   const [search, setSearch] = useState("");
 
   const initTable = async () => {
-    const { data } = await publicAPI.get("posts?limit=10");
+    const { data } = await publicAPI.get("posts/");
 
     setTableData(data);
   };
